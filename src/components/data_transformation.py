@@ -91,7 +91,8 @@ class DataTransformation:
             preprocessing_obj=self.grt_data_transformer_object()
 
 
-            target_col_name = ['is_genuine']
+            target_col_name = "is_genuine"
+            num_value = ["diagonal","height_left","height_right","margin_low","margin_up","length"]
 
 
             input_feature_train_df = train_df.drop(columns=[target_col_name],axis=1)
@@ -108,8 +109,8 @@ class DataTransformation:
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.fit_transform(input_feature_test_df)
 
-            input_target_feature_arr=preprocessing_obj.fit_transform(target_feature_train_df)
-            input_target_feature_arr=preprocessing_obj.fit_transform(target_feature_test_df)
+            input_target_feature_train_arr=preprocessing_obj.fit_transform(target_feature_train_df)
+            input_target_feature_test_arr=preprocessing_obj.fit_transform(target_feature_test_df)
 
 
 
