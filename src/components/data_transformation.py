@@ -11,8 +11,6 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.preprocessing import LabelEncoder
 
 
-
-
 from src.exception import CustomException
 from logger import logging
 import os
@@ -36,10 +34,9 @@ class DataTransformation:
         This function is responsible for data transformation
 
         '''
-
         try:
             num_col = ['diagonal','height_left','height_right','margin_low','margin_up','length']
-            cat_col = ['is_genuine']
+            cat_col = "is_genuine"
             
             pipeline = Pipeline(
                 steps=[
@@ -48,25 +45,16 @@ class DataTransformation:
                 ]
             )
 
-            pipeline_label = Pipeline(
-                steps=[
-                ("label",LabelEncoder())
-                ]
-            )
-
 
             logging.info("Pipeline created and completed")
 
             preprocessor = ColumnTransformer(
                 [
-                ('pipeline',pipeline,num_col),
-                ('pipeline_label',pipeline_label,cat_col),
-                ],remainder='passthrough'
+                ('pipeline',pipeline,num_col)
+                ]
             )
 
-            # preprocessor_label = ColumnTransformer([
-            #     ('pipeline_label',pipeline_label,cat_col)
-            # ])
+            
 
             return preprocessor
         
@@ -74,7 +62,36 @@ class DataTransformation:
         except Exception as e:
 
             raise CustomException(e,sys)
-    
+        
+
+
+    def grt_data_transformer_label_object(self):
+
+        
+        try:
+
+            cat_col = "is_genuine"
+
+            label_encoder = LabelEncoder()
+
+            
+
+            # pipeline_label = Pipeline(
+            #     steps=[
+            #     ("label",LabelEncoder())
+            #     ]
+            # )
+
+            # preprocessor_label = ColumnTransformer([
+            #     ('pipeline_label',pipeline_label,cat_col)
+            # ])
+
+
+            # return preprocessor_label
+            return label_encoder
+
+        except Exception as e:
+            raise CustomException(e,sys)
 
                
 
@@ -89,6 +106,8 @@ class DataTransformation:
             logging.info("Obtainng preprocessor objct")
 
             preprocessing_obj=self.grt_data_transformer_object()
+            preprocessing_label_obj=self.grt_data_transformer_label_object()
+
 
 
             target_col_name = "is_genuine"
@@ -109,15 +128,15 @@ class DataTransformation:
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.fit_transform(input_feature_test_df)
 
-            input_target_feature_train_arr=preprocessing_obj.fit_transform(target_feature_train_df)
-            input_target_feature_test_arr=preprocessing_obj.fit_transform(target_feature_test_df)
+            input_target_feature_train_arr=preprocessing_label_obj.fit_transform(target_feature_train_df)
+            input_target_feature_test_arr=preprocessing_label_obj.fit_transform(target_feature_test_df)
 
 
 
             train_arr = np.c_[
-                input_feature_train_arr, np.array(target_feature_train_df)
+                input_feature_train_arr, np.array(input_target_feature_train_arr)
             ]
-            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+            test_arr = np.c_[input_feature_test_arr, np.array(input_target_feature_test_arr)]
 
             logging.info(f"Saved preprocessing object.")
 
