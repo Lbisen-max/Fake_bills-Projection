@@ -12,6 +12,9 @@ from src.components.data_transformation import DataTransformationConfig
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import Model_Trainer
+
 
 
 
@@ -35,7 +38,7 @@ class DataIngestion:
 
             logging.info("Read the datasent as dataframe")
 
-            os.mkdir(os.path.dirname(self.ingestion_config.train_data_path))
+            os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
 
             df.to_csv(self.ingestion_config.row_data_path,index=False,header=True)
 
@@ -66,10 +69,11 @@ if __name__=="__main__":
 
 
     data_transformation=DataTransformation()
-    data_transformation.initiate_data_trasnformation(train_data,test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_trasnformation(train_data,test_data)
 
 
-
+    Modeltrainer = Model_Trainer()
+    print(Modeltrainer.initiate_model_trainer(train_arr,test_arr))
 
 
   
