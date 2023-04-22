@@ -1,0 +1,48 @@
+<html>
+<body>
+    <div class="login">
+       <h1>FAKEBILLS PREDICTOR</h1>
+   
+       <form action="{{ url_for('predict_datapoint')}}" method="post">
+        <h1>
+            <legend>FAKEBILLS ML PROJECT</legend>
+        </h1>
+        <div class="mb-3">
+            <label class="form-label">Put diagonal value</label>
+            <input class="form-control" type="number" name="diagonal" step="any"
+                placeholder="Enter your diagonal value" min='0' max='1000' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Put height_left</label>
+            <input class="form-control" type="number" name="height_left" step="any"
+                placeholder="Enter your height_left value" min='0' max='1000' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Put height_right</label>
+            <input class="form-control" type="number" name="height_right" step="any"
+                placeholder="Enter your height_right value" min='0' max='1000' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Put margin_low</label>
+            <input class="form-control" type="number" name="margin_low" step="any"
+                placeholder="Enter your margin_low value" min='0' max='1000' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Put margin_up</label>
+            <input class="form-control" type="number" name="margin_up" step="any"
+                placeholder="Enter your margin_up value" min='0' max='1000' />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Put length</label>
+            <input class="form-control" type="number" name="length" step="any"
+                placeholder="Enter your length value" min='0' max='1000' />
+        </div>
+        <div class="mb-3">
+            <input class="btn btn-primary" type="submit" value="Predict your bill is genuine or fake" required />
+        </div>
+    </form>
+    <h2>
+       THE  prediction is {{results}}
+    </h2>
+   <body>
+</html>
